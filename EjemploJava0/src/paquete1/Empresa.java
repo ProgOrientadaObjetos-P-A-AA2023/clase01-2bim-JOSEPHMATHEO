@@ -17,6 +17,7 @@ public class Empresa {
     private double costoBienesInmuebles;
     private double costoVehiculos;
     private double costoTotalBienes;
+    private double costoTotalPagoPredio;
     
     public void establecerNombre(String m){
         nombre = m;
@@ -36,24 +37,92 @@ public class Empresa {
         costoBienesInmuebles = suma;
     }
     
+    public void establecerCostoPredio(){
+        double suma = 0;
+        for (int i = 0; i < edificios.length; i++) {
+        // for (int i = 0; i < obtenerEdificios().length; i++) {
+            suma = suma + edificios[i].obtenerCostoPredio();
+        }
+        
+        costoTotalPagoPredio = suma;
+    }
+
+    public void establecerVehiculos(Vehiculo[] v) {
+        
+        vehiculos = v;
+        
+    }
+    
+    public void establecerCostoPredio(Edificio[] v) {
+        
+        edificios = v;
+        
+    }
+    
+    public void establecerCostoVehiculos(){
+        
+        double suma = 0;
+        
+        for (int i = 0; i < vehiculos.length; i++) {
+        
+            suma = suma + vehiculos[i].obtenerValor();
+            
+        }
+        
+        costoVehiculos = suma;
+        
+    }
+    
+    public Edificio[] obtenerCostoPredio() {
+        
+        return edificios;
+        
+    }
+    
     public String obtenerNombre(){
+        
         return nombre;
+        
     }
     
     public Edificio[] obtenerEdificios(){
+        
         return edificios;
+        
+    }
+    
+    public Vehiculo[] obtenerVehiculos(){
+        
+        return vehiculos;
+        
     }
     
     public double obtenerCostosBienesInmuebles(){
+        
         return costoBienesInmuebles;
+        
     }
+
+    public double obtenerCostoVehiculos() {
+        
+        return costoVehiculos;
+        
+    }
+
+    public double obtenerCostoTotalPagoPredio() {
+        return costoTotalPagoPredio;
+    }
+    
+    
+    
+    
     
     @Override
     public String toString(){
         /*
         Empresa de Hojas
         Lista de Edificios
-        1. EDIFICIO CENTRAL (20000)
+        1. EDIFICIO CENTRAL (20000) 
         2. EDIFICIO NORTE (30000)
         3. EDIFICIO SUR (10000)
         4. EDIFICIO SECUNDARIO (5000)
@@ -73,17 +142,41 @@ public class Empresa {
         String reporte = String.format("%s\nLista de Edificio\n", 
                 obtenerNombre());
         for (int i = 0; i < edificios.length; i++) {
-            reporte = String.format("%s%d. %s (%.2f)\n", 
+            reporte = String.format("%s%d. %s (%.2f) %.2f\n", 
                     reporte, 
                     i+1,
                     edificios[i].obtenerNombre().toUpperCase(), 
-                    edificios[i].obtenerCosto());
+                    edificios[i].obtenerCosto(),
+                    edificios[i].obtenerCostoPredio());
         }
         
-        reporte = String.format("%sTotal de inmuebles: %.2f\n", 
+        reporte = String.format("%sTotal de inmuebles: %.2f\n"
+                + "Total Costo predio: %.2f\n", 
                 reporte,
-                costoBienesInmuebles);
+                costoBienesInmuebles,
+                costoTotalPagoPredio);
+        
+        
+        
+        reporte = String.format("%s\n Lista de Vehiculos", 
+                reporte);
+        for (int i = 0; i < vehiculos.length; i++) {
+            
+            reporte = String.format("%s\n %d. %s, %s (%.2f)", 
+                    
+                    reporte,
+                    i+1,
+                    vehiculos[i].obtenerTipo(), 
+                    vehiculos[i].obtenerMatricula(),
+                    vehiculos[i].obtenerValor());
+        }
+        
+        reporte = String.format("%s\nTotal bienes: %.2f\n", 
+                reporte,
+                costoVehiculos);
         
         return reporte;
+        
     }
+    
 }
